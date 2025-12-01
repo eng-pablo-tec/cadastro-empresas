@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de Empresas</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f0f5;
+    margin: 0;
+    padding: 20px;
+    color: #2f3640;
+  }
+
+  h2 {
+    text-align: center;
+    color: #353b48;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px #aaa;
+  }
+
+  #formContainer {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0;
+    border-radius: 8px;
+    border: 1px solid #dcdde1;
+    transition: 0.3s;
+  }
+
+  input:focus {
+    border-color: #192a56;
+    box-shadow: 0 0 5px #40739e;
+    outline: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #e1b12c;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #fbc531;
+    transform: translateY(-2px);
+  }
+
+  #companyList {
+    max-width: 600px;
+    margin: 20px auto;
+  }
+
+  .companyItem {
+    background: #f5f6fa;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: 0.3s;
+  }
+
+  .companyItem:hover {
+    background: #dcdde1;
+  }
+</style>
+</head>
+<body>
+
+<h2>Cadastro de Empresas</h2>
+<div id="formContainer">
+  <input type="text" id="companyName" placeholder="Nome da Empresa">
+  <input type="text" id="companyCNPJ" placeholder="CNPJ">
+  <input type="text" id="companyAddress" placeholder="Endereço">
+  <input type="text" id="companyCity" placeholder="Cidade">
+  <input type="text" id="companyState" placeholder="Estado">
+  <input type="text" id="companyZip" placeholder="CEP">
+  <input type="email" id="companyEmail" placeholder="Email">
+  <input type="text" id="companyPhone" placeholder="Telefone">
+  <input type="text" id="companyIndustry" placeholder="Ramo de Atividade">
+  <input type="text" id="companyOwner" placeholder="Proprietário">
+  <button id="registerCompanyBtn">Cadastrar Empresa</button>
+</div>
+
+<div id="companyList"></div>
+
+<script>
+let companyId = 1;
+
+document.getElementById('registerCompanyBtn').addEventListener('click', () => {
+    const fields = ['companyName','companyCNPJ','companyAddress','companyCity','companyState','companyZip','companyEmail','companyPhone','companyIndustry','companyOwner'];
+    let valid = true;
+    let data = {};
+
+    fields.forEach(f => {
+        const value = document.getElementById(f).value;
+        if(!value) valid = false;
+        data[f] = value;
+    });
+
+    if(!valid) {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    const div = document.createElement('div');
+    div.className = 'companyItem';
+    div.id = `company${companyId}`;
+    div.innerHTML = `
+      <strong>ID: ${companyId}</strong><br>
+      Nome: ${data.companyName}<br>
+      CNPJ: ${data.companyCNPJ}<br>
+      Endereço: ${data.companyAddress}, ${data.companyCity} - ${data.companyState}, CEP: ${data.companyZip}<br>
+      Email: ${data.companyEmail}, Telefone: ${data.companyPhone}<br>
+      Ramo: ${data.companyIndustry}, Proprietário: ${data.companyOwner}
+    `;
+
+    document.getElementById('companyList').appendChild(div);
+
+    fields.forEach(f => document.getElementById(f).value = '');
+    companyId++;
+});
+</script>
+
+</body>
+</html>
